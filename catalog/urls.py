@@ -1,11 +1,12 @@
 from django.urls import path
-from . import views
+from .views import ProductListView, ProductDetailView, ContactsView
 from django.conf import settings
 from django.conf.urls.static import static
 
+app_name = 'catalog'  # Пространство имён приложения
+
 urlpatterns = [
-    path('', views.home, name='home'),
-    path('contacts/', views.contacts, name='contacts'),
-    path('product/<int:pk>/', views.product_detail, name='product_detail'),
+    path('', ProductListView.as_view(), name='product_list'),
+    path('product/<int:pk>/', ProductDetailView.as_view(), name='product_detail'),
+    path('contacts/', ContactsView.as_view(), name='contacts'),
 ]
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

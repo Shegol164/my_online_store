@@ -1,6 +1,10 @@
+# users/forms.py
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import User  # Добавьте этот импорт
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
+from .models import User
+
+class CustomAuthenticationForm(AuthenticationForm):
+    username = forms.EmailField(label='Email')
 
 class UserRegisterForm(UserCreationForm):
     class Meta:

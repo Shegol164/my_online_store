@@ -1,0 +1,9 @@
+{% extends 'catalog/base.html' %}
+
+{% if product.owner == user or user.has_perm('catalog.can_change_product_status') %}
+<a href="{% url 'catalog:product_update' pk=product.pk %}" class="btn btn-secondary">Изменить</a>
+{% endif %}
+
+{% if product.owner == user or user.has_perm('catalog.delete_product') %}
+<a href="{% url 'catalog:product_delete' pk=product.pk %}" class="btn btn-danger">Удалить</a>
+{% endif %}

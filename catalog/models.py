@@ -5,6 +5,7 @@ User = get_user_model()
 
 
 class Product(models.Model):
+    objects = None
     PUBLISH_STATUS = [
         ('published', 'Опубликован'),
         ('moderation', 'На модерации'),

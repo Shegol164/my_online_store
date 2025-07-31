@@ -10,9 +10,10 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-# catalog/views.py
 from django.views.generic import ListView
 from .models import Product
+from django.views.decorators.cache import cache_page
+from .services import get_products_by_category
 
 
 class ProductListView(ListView):
@@ -69,3 +70,20 @@ class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 class ContactsView(TemplateView):
     template_name = 'catalog/contacts.html'
+
+@cache_page(60 * 15)  # Кеширование на 15 минут
+def product_detail(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    return render(request, 'catalog/product_detail.html', {'product': product})
+
+def category_products(request, category_id):
+    products = get_products_by_category(category_id)
+    return render(request, 'catalog/category_products.html', {'products': products})
+
+def product_list(request):
+    cache_key = 'all_products'
+    products = cache.get(cache_key)
+    if not products:
+        products = Product.objects.all()
+        cache.set(cache_key, products, 60 * 15)  # Кеширование на 15 минут
+    return render(request, 'catalog/product_list.html', {'products': products})

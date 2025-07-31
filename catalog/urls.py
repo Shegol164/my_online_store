@@ -1,7 +1,9 @@
 from django.urls import path
-from .views import (ProductListView, ProductDetailView,
-                   ProductCreateView, ProductUpdateView,
-                   ProductDeleteView, ContactsView)
+from .views import (
+    ProductListView, ProductDetailView,
+    ProductCreateView, ProductUpdateView,
+    ProductDeleteView, ContactsView
+)
 
 app_name = 'catalog'
 
